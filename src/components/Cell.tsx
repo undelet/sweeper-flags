@@ -6,15 +6,15 @@ export interface ICellProps extends ICell {
 	onPress: () => void;
 }
 
-// 1️⃣ 2️⃣ 3️⃣ 4️⃣ 5️⃣ 6️⃣ 7️⃣ 8️⃣ 9️⃣ 💣 🚩 🏳️‍🌈 0️⃣
+const numbers = ['0️⃣', '1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣'];
 
 export const Cell = ({ onPress, isBomb, isRevealed, hint }: ICellProps) => {
-	let text: string | number = '?';
+	let text: string | number = '❓';
 	if (isRevealed) {
 		if (isBomb) {
-			text = 'O';
+			text = '💣';
 		} else {
-			text = hint;
+			text = numbers[hint];
 		}
 	}
 

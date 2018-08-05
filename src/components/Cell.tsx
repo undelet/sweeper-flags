@@ -1,14 +1,35 @@
-import React from 'react'
-import { View, Text, TouchableHighlight } from 'react-native'
+import React from 'react';
+import { Text, TouchableHighlight, StyleSheet } from 'react-native';
+import { ICell } from '../interfaces/cell.interface';
 
-const Cell = (props: { isBomb: boolean, revealedBy: string, onTouch: () => void }) => (
-  <TouchableHighlight onPress={ props.onTouch }>
-    <View style={{ padding: 12 }}>
-      {
-        props.revealedBy === undefined ? <Text>?</Text> : <Text>{ props.isBomb ? 'O' : '-' }</Text>
-      }
-    </View>
-  </TouchableHighlight>
-)
+export interface ICellProps extends ICell {
+  onPress: () => void;
+}
 
-export default Cell
+export const Cell = ({
+  onPress,
+  isBomb,
+  isRevealed,
+  hint,
+}: ICellProps) => {
+  let text: string | number = '?';
+  if (isRevealed) {
+    if (isBomb) {
+      text = 'O';
+    } else {
+      text = hint;
+    }
+  }
+
+  return (
+    <TouchableHighlight onPress={onPress} style={styles.container}>
+      <Text>{text}</Text>
+    </TouchableHighlight>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    padding: 12,
+  },
+});

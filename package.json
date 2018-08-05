@@ -10,11 +10,13 @@
     "@types/socket.io": "^1.4.36",
     "@types/socket.io-client": "^1.4.32",
     "jest-expo": "~27.0.0",
+    "prettier": "^1.14.0",
     "react-native-scripts-ts": "1.15.0",
     "react-native-typescript-transformer": "^1.2.3",
     "react-test-renderer": "16.3.1",
     "ts-jest": "^22.4.6",
     "tslib": "^1.9.1",
+    "tslint-config-prettier": "^1.14.0",
     "typescript": "^2.8.3"
   },
   "main": "./node_modules/react-native-scripts-ts/build/bin/crna-entry.js",

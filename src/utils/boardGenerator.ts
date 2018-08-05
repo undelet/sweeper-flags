@@ -22,7 +22,7 @@ export const generateBoard = (x: number, y: number, bombsCount: number): IBoard 
 	return populateHints(board);
 };
 
-const neighbours = [ [ -1, -1 ], [ -1, 0 ], [ -1, 1 ], [ 0, -1 ], [ 0, 1 ], [ 1, -1 ], [ 1, 0 ], [ 1, 1 ] ];
+export const neighbours = [ [ -1, -1 ], [ -1, 0 ], [ -1, 1 ], [ 0, -1 ], [ 0, 1 ], [ 1, -1 ], [ 1, 0 ], [ 1, 1 ] ];
 
 function populateHints(board: IBoard): IBoard {
 	const rows = board.length;

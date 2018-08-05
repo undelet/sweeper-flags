@@ -1,6 +1,7 @@
 import React from 'react'
 import { View, Text } from 'react-native'
-import Board from '../components/Board';
+import Board from '../components/Board'
+import { generateBoard } from '../utils/boardGenerator'
 
 const noBombNoReveal = { isBomb: false, revealedBy: undefined as string }
 const noBombReveal = { isBomb: false, revealedBy: 'p1' }
@@ -14,7 +15,7 @@ export class GameScreen extends React.Component<{}, {}> {
         <View style={{ flex: 1, backgroundColor: 'red' }}><Text>Opponent</Text></View>
         <View style={{ backgroundColor: 'white' }}>
           <Board
-            onFieldPress={console.log}
+            onFieldPress={() => console.log(generateBoard(4, 4, 4))}
             board={[
               [ noBombNoReveal, noBombReveal, bombNoReveal, bombReveal ],
               [ noBombNoReveal, noBombReveal, bombNoReveal, bombReveal ],

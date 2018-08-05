@@ -1,60 +1,76 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, StyleSheet, Animated, Dimensions, PanResponder, TouchableOpacity, Alert } from 'react-native';
+import { LinearGradient } from 'expo';
 
-import { generateBoard, neighbours } from '../utils/boardGenerator';
+import { generateBoard } from '../utils/boardGenerator';
 import { Board } from '../components/Board';
 import { IBoard } from '../interfaces/board.interface';
-import { updateBoardCell } from '../utils/updateBoardCell';
+import { revealCell } from '../utils/updateBoardCell';
+import { colors } from '../theme/colors';
 
 interface IGameScreenState {
 	board: IBoard;
 }
 
+let Window = Dimensions.get('window');
+
 export class GameScreen extends React.Component<{}, IGameScreenState> {
 	state = {
-		board: generateBoard(8, 8, 16)
+		board: generateBoard(8, 8, 15),
+		pan: new Animated.ValueXY()
 	};
+
+	panResponder = PanResponder.create({
+		onStartShouldSetPanResponder: () => true,
+		onPanResponderMove: Animated.event([
+			null,
+			{
+				dx: this.state.pan.x,
+				dy: this.state.pan.y
+			}
+		]),
+		onPanResponderRelease: (e, gesture) => {}
+	});
 
 	render() {
 		return (
-			<View style={{ flex: 1 }}>
-				<View style={{ flex: 1, backgroundColor: 'red' }}>
-					<Text>Opponent</Text>
-				</View>
-				<View style={{ backgroundColor: 'white' }}>
+			<View style={styles.screen}>
+				<Animated.View
+					style={[ this.state.pan.getLayout(), styles.boardContainer ]}
+					{...this.panResponder.panHandlers}
+				>
 					<Board onFieldPress={this.onFieldPress} board={this.state.board} />
-				</View>
-				<View style={{ flex: 1, backgroundColor: 'green' }}>
-					<Text>You</Text>
-				</View>
+				</Animated.View>
+				<LinearGradient colors={statusGradColors}>
+					<View style={{ height: 150 }}>
+						<TouchableOpacity onPress={() => Alert.alert('NEW GAME PRESSED')}>
+							<Text
+								style={{
+									alignSelf: 'flex-end',
+									fontSize: 30,
+									color: colors.blue,
+									backgroundColor: colors.beige
+								}}
+							>
+								START
+							</Text>
+						</TouchableOpacity>
+					</View>
+				</LinearGradient>
 			</View>
 		);
 	}
 
 	private onFieldPress = (x: number, y: number) => {
-		this.setState(({ board }) => {
-			if (board[x][y].hint === 0) {
-				neighbours.forEach(([ deltaX, deltaY ]) => {
-					const neighbourX = x + deltaX;
-					const neighbourY = y + deltaY;
-
-					if (
-						neighbourX < 0 ||
-						neighbourY < 0 ||
-						neighbourX > board.length - 1 ||
-						neighbourY > board[0].length - 1
-					) {
-						return;
-					}
-
-					if (!board[neighbourX][neighbourY].isRevealed) {
-						this.onFieldPress(neighbourX, neighbourY);
-					}
-				});
-			}
-			return {
-				board: updateBoardCell(board, x, y, { isRevealed: true })
-			};
-		});
+		this.setState(({ board }) => ({
+			board: revealCell(board, x, y)
+		}));
 	};
 }
+
+const statusGradColors = [ colors.tealTransparent, colors.teal ];
+
+const styles = StyleSheet.create({
+	screen: { flex: 1, backgroundColor: colors.teal, justifyContent: 'flex-end' },
+	boardContainer: { position: 'absolute' }
+});

@@ -1,12 +1,13 @@
 import React from 'react'
 import { View, Text } from 'react-native'
-import Board from '../components/Board'
-import { generateBoard } from '../utils/boardGenerator'
 
-const noBombNoReveal = { isBomb: false, revealedBy: undefined as string }
-const noBombReveal = { isBomb: false, revealedBy: 'p1' }
-const bombNoReveal = { isBomb: true, revealedBy: undefined as string }
-const bombReveal = { isBomb: true, revealedBy: 'p1' }
+import { generateBoard } from '../utils/boardGenerator'
+import { Board } from '../components/Board';
+
+const noBombNoReveal = { isBomb: false, isRevealed: false }
+const noBombReveal = { isBomb: false, isRevealed: true }
+const bombNoReveal = { isBomb: true, isRevealed: false }
+const bombReveal = { isBomb: true, isRevealed: true }
 
 export class GameScreen extends React.Component<{}, {}> {
   render() {

@@ -1,22 +1,16 @@
 import React from 'react';
-import { View, Text, StyleSheet, Animated, Dimensions, PanResponder, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StyleSheet, Animated, PanResponder, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo';
-
-import { generateBoard } from '../utils/boardGenerator';
 import { Board } from '../components/Board';
-import { IBoard } from '../interfaces/board.interface';
-import { revealCell } from '../utils/updateBoardCell';
 import { colors } from '../theme/colors';
+import { IGameServiceInjectedProps, withGameService } from '../service-components/game.service-component';
 
 interface IGameScreenState {
-	board: IBoard;
+	pan: Animated.ValueXY;
 }
 
-let Window = Dimensions.get('window');
-
-export class GameScreen extends React.Component<{}, IGameScreenState> {
+class AbstractGameScreen extends React.Component<IGameServiceInjectedProps, IGameScreenState> {
 	state = {
-		board: generateBoard(8, 8, 15),
 		pan: new Animated.ValueXY()
 	};
 
@@ -29,21 +23,23 @@ export class GameScreen extends React.Component<{}, IGameScreenState> {
 				dy: this.state.pan.y
 			}
 		]),
-		onPanResponderRelease: (e, gesture) => {}
+		onPanResponderRelease: (e, gesture) => { }
 	});
 
 	render() {
+		const { onFieldPress, board, onStart } = this.props;
+
 		return (
 			<View style={styles.screen}>
 				<Animated.View
-					style={[ this.state.pan.getLayout(), styles.boardContainer ]}
+					style={[this.state.pan.getLayout(), styles.boardContainer]}
 					{...this.panResponder.panHandlers}
 				>
-					<Board onFieldPress={this.onFieldPress} board={this.state.board} />
+					<Board onFieldPress={onFieldPress} board={board} />
 				</Animated.View>
 				<LinearGradient colors={statusGradColors}>
 					<View style={{ height: 150 }}>
-						<TouchableOpacity onPress={() => Alert.alert('NEW GAME PRESSED')}>
+						<TouchableOpacity onPress={onStart}>
 							<Text
 								style={{
 									alignSelf: 'flex-end',
@@ -60,17 +56,13 @@ export class GameScreen extends React.Component<{}, IGameScreenState> {
 			</View>
 		);
 	}
-
-	private onFieldPress = (x: number, y: number) => {
-		this.setState(({ board }) => ({
-			board: revealCell(board, x, y)
-		}));
-	};
 }
 
-const statusGradColors = [ colors.tealTransparent, colors.teal ];
+const statusGradColors = [colors.tealTransparent, colors.teal];
 
 const styles = StyleSheet.create({
 	screen: { flex: 1, backgroundColor: colors.teal, justifyContent: 'flex-end' },
 	boardContainer: { position: 'absolute' }
 });
+
+export const GameScreen = withGameService(AbstractGameScreen);

@@ -575,6 +575,18 @@
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@types/events/-/events-1.2.0.tgz#81a6731ce4df43619e5c8c945383b3e62a89ea86"
 
+"@types/expo@^27.0.7":
+  version "27.0.7"
+  resolved "https://registry.yarnpkg.com/@types/expo/-/expo-27.0.7.tgz#fbe03e372405af85d17ffb97c0f82e6339fc0f11"
+  dependencies:
+    "@types/fbemitter" "*"
+    "@types/react" "*"
+    "@types/react-native" "*"
+
+"@types/fbemitter@*":
+  version "2.0.32"
+  resolved "https://registry.yarnpkg.com/@types/fbemitter/-/fbemitter-2.0.32.tgz#8ed204da0f54e9c8eaec31b1eec91e25132d082c"
+
 "@types/glob@*":
   version "5.0.35"
   resolved "https://registry.yarnpkg.com/@types/glob/-/glob-5.0.35.tgz#1ae151c802cece940443b5ac246925c85189f32a"
@@ -594,6 +606,12 @@
 "@types/node@*":
   version "10.5.6"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.5.6.tgz#1640f021dd0eaf12e731e54198c12ad2e020dc8e"
+
+"@types/react-native@*":
+  version "0.56.5"
+  resolved "https://registry.yarnpkg.com/@types/react-native/-/react-native-0.56.5.tgz#5caa134895cf275406a71f649f6c6f53f6d7a3ed"
+  dependencies:
+    "@types/react" "*"
 
 "@types/react-native@^0.55.14":
   version "0.55.28"

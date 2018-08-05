@@ -1,5 +1,8 @@
-export const generateBoard = (x: number, y: number, bombsCount: number) => {
-  const board: { isBomb: boolean }[][] = Array(x).fill(Array(y).fill({}).map(() => ({ isBomb: false })))
+import { IBoard } from "../interfaces/board.interface";
+
+export const generateBoard = (x: number, y: number, bombsCount: number): IBoard => {
+
+  const board: IBoard = Array(x).fill([]).map(()=>Array(y).fill({}).map(() => ({ isBomb: false, isRevealed: false, hint: 0 })))
 
   let bombsLeft = bombsCount
 

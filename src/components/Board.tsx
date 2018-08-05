@@ -14,9 +14,9 @@ export const Board = ({
 }: IBoardProps) => (
   <View>
     {
-      board.map((row, y) => (
-        <View style={styles.row}>
-          { row.map((element, x) => <Cell {...element} onPress={() => onFieldPress(x, y)} /> )}
+      board.map((row, x) => (
+        <View key={x} style={styles.row}>
+          { row.map((element, y) => <Cell key={y} {...element} onPress={() => onFieldPress(x, y)} /> )}
         </View>
       ))
     }
